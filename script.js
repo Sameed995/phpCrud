@@ -1,5 +1,6 @@
 $(document).ready(function () {
     console.log(" page is loaded");
+    let employeeData = [];
 
     function loadEmployees() {
         $.ajax({
@@ -7,6 +8,7 @@ $(document).ready(function () {
             method: "GET",
             dataType: "json",
             success: function (data) {
+                employeeData = data;
                 let tbody = $("table tbody");
                 tbody.empty();
                 data.forEach(function (emp) {
@@ -32,53 +34,53 @@ $(document).ready(function () {
     };
     $("table tbody").on("click", ".edit-btn", function () {
         // let id = $(this).data("id");
-        // console.log("Edit button clicked for ID:", id);
-        let row = $(this).closest("tr");
+        // console.log("Edit button clicked", id);
         let id = $(this).data("id");
-        let name = row.find("td:eq(1)").text();
-        let title = row.find("td:eq(2)").text();
-        let salary = row.find("td:eq(3)").text();
-        let hireDate = row.find("td:eq(4)").text();
 
-        $("#modalId").val(id);
-        $("#modalName").val(name);
-        $("#modalTitle").val(title);
-        $("#modalSalary").val(salary);
-        $("#modalHiredate").val(hireDate);
+        // find employee object from array  
+        let employee = employeeData.find(emp => emp.id == Number(id));
+            // console.log(employee);
+        if (!employee) return;
+
+        Object.keys(employee).forEach(function (key) {
+            $('#editModal').find('[name="' + key + '"]').val(employee[key]);
+        });
+
 
         var myModal = new bootstrap.Modal(document.getElementById('editModal'));
         myModal.show();
     });
+    loadEmployees();
     $("table tbody").on("click", ".del-btn", function () {
 
-    let id = $(this).data("id");
+        let id = $(this).data("id");
 
-    bootbox.confirm("Are you sure you want to delete this employee?", function(result) {
+        bootbox.confirm("Are you sure you want to delete this employee?", function (result) {
 
-        if (result) {
+            if (result) {
 
-            $.ajax({
-                url: "delete.php",
-                method: "POST",
-                dataType: "json",
-                data: { id: id },
-                success: function (response) {
-                    loadEmployees();
+                $.ajax({
+                    url: "delete.php",
+                    method: "POST",
+                    dataType: "json",
+                    data: { id: id },
+                    success: function (response) {
+                        loadEmployees();
 
-                    bootbox.alert("Employee deleted successfully!");
+                        bootbox.alert("Employee deleted successfully!");
 
-                },
-                error: function (xhr) {
-                    console.log(xhr.responseText);
-                    bootbox.alert("Delete failed.");
-                }
-            });
+                    },
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                        bootbox.alert("Delete failed.");
+                    }
+                });
 
-        }
+            }
+
+        });
 
     });
-
-});
 
 
 
@@ -152,11 +154,11 @@ $(document).ready(function () {
             },
             success: function (response) {
 
-                let row = $('#row-' + response.id);
-                row.find('#employee_name').text(response.employee_name);
-                row.find('#title').text(response.title);
-                row.find('#salary').text(response.salary);
-                row.find('#hire_date').text(response.hire_date);
+                // let row = $('#row-' + response.id);
+                // row.find('#employee_name').text(response.employee_name);
+                // row.find('#title').text(response.title);
+                // row.find('#salary').text(response.salary);
+                // row.find('#hire_date').text(response.hire_date);
 
                 bootbox.alert("Updated successfully!");
 

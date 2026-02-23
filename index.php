@@ -64,11 +64,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="modalId">
-                    <input type="text" id="modalName">
-                    <input type="text" id="modalTitle">
-                    <input type="text" id="modalSalary">
-                    <input type="text" id="modalHiredate">
+                    <input type="text" id="modalId" name="id">
+                    <input type="text" id="modalName" name="employee_name">
+                    <input type="text" id="modalTitle" name="title">
+                    <input type="text" id="modalSalary" name="salary">
+                    <input type="text" id="modalHiredate" name="hire_date">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
