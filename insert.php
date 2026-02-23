@@ -5,7 +5,6 @@ if(!isset($_POST['employee_name'], $_POST['title'], $_POST['salary'], $_POST['da
     die("All fields are required");
 }
 
-// $id = $_POST['
 $employeename = $_POST['employee_name'];
 $title = $_POST['title'];
 $salary = $_POST['salary'];

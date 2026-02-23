@@ -18,10 +18,6 @@
 
 <body>
     <form id="employeeform">
-        <!-- <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">ID</label>
-            <input type="text" class="form-control" aria-describedby="emailHelp" id="employeeid">
-        </div> -->
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Name</label>
             <input type="text" class="form-control" name="employeename" id="employeename">
@@ -45,7 +41,6 @@
     <nav class="navbar navbar-light bg-light">
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search">
-            <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button> -->
         </form>
     </nav>
 
@@ -64,7 +59,6 @@
             </tr>
         </thead>
         <tbody></tbody>
-        <!-- <button class="btn btn-primary" type="submit">Edit</button> -->
     </table>
     <div class="modal" tabindex="-1" id="editModal">
         <div class="modal-dialog">

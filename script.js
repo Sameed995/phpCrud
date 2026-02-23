@@ -38,13 +38,9 @@ $(document).ready(function () {
         });
     };
     $("table tbody").on("click", ".edit-btn", function () {
-        // let id = $(this).data("id");
-        // console.log("Edit button clicked", id);
         let id = $(this).data("id");
 
-        // find employee object from array  
         let employee = employeeData.find(emp => emp.id == Number(id));
-        // console.log(employee);
         if (!employee) return;
 
         Object.keys(employee).forEach(function (key) {
@@ -93,7 +89,6 @@ $(document).ready(function () {
 
     $("#employeeform").submit(function (e) {
         e.preventDefault();
-        // let id=$("#employeeid").val();
         let employeename = $("#employeename").val();
         let title = $("#title").val();
         let salary = $("#salary").val();
