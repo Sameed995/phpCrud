@@ -48,7 +48,7 @@ $(document).ready(function () {
         });
 
 
-        var myModal = new bootstrap.Modal(document.getElementById('editModal'));
+        var myModal = new bootstrap.Modal($("#editModal")[0]);
         myModal.show();
     });
 
