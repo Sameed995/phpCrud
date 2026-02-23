@@ -40,6 +40,16 @@
         </div>
         <button type="submit" class="btn btn-primary" name="submit" id="btn">Submit</button>
     </form>
+    <br><br>
+
+    <nav class="navbar navbar-light bg-light">
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search">
+            <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button> -->
+        </form>
+    </nav>
+
+     <br><br>
 
 
     <table class="table">

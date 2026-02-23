@@ -2,17 +2,11 @@ $(document).ready(function () {
     console.log(" page is loaded");
     let employeeData = [];
 
-    function loadEmployees() {
-        $.ajax({
-            url: "get.php",
-            method: "GET",
-            dataType: "json",
-            success: function (data) {
-                employeeData = data;
-                let tbody = $("table tbody");
-                tbody.empty();
-                data.forEach(function (emp) {
-                    let row = `
+    function renderEmployees(data) {
+        let tbody = $("table tbody");
+        tbody.empty();
+        data.forEach(function (emp) {
+            let row = `
                     <tr>
                         <td>${emp.id}</td>
                         <td>${emp.employee_name}</td>
@@ -27,8 +21,19 @@ $(document).ready(function () {
                         </td>
                     </tr>
                     `;
-                    tbody.append(row);
-                });
+            tbody.append(row);
+        });
+    }
+
+    function loadEmployees() {
+        $.ajax({
+            url: "get.php",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                employeeData = data;
+                renderEmployees(employeeData);
+
             }
         });
     };
@@ -39,7 +44,7 @@ $(document).ready(function () {
 
         // find employee object from array  
         let employee = employeeData.find(emp => emp.id == Number(id));
-            // console.log(employee);
+        // console.log(employee);
         if (!employee) return;
 
         Object.keys(employee).forEach(function (key) {
@@ -50,7 +55,9 @@ $(document).ready(function () {
         var myModal = new bootstrap.Modal(document.getElementById('editModal'));
         myModal.show();
     });
+
     loadEmployees();
+
     $("table tbody").on("click", ".del-btn", function () {
 
         let id = $(this).data("id");
@@ -82,8 +89,6 @@ $(document).ready(function () {
 
     });
 
-
-
     loadEmployees();
 
     $("#employeeform").submit(function (e) {
@@ -93,39 +98,22 @@ $(document).ready(function () {
         let title = $("#title").val();
         let salary = $("#salary").val();
         let datehire = $("#datehire").val();
-        // console.log(id,employeename,title,salary,datehire);
         console.log("form submitted");
         $.ajax({
             url: "insert.php",
             method: "POST",
             data: {
-                // id:id,
                 employee_name: employeename,
                 title: title,
                 salary: salary,
                 datehire: datehire
             },
             dataType: "json",
-            success: function (newEmployee) {
-                let row = `
-                <tr>
-                    <td>${newEmployee.id}</td>
-                    <td>${newEmployee.employee_name}</td>
-                    <td>${newEmployee.title}</td>
-                    <td>${newEmployee.salary}</td>
-                    <td>${newEmployee.hire_date}</td>
-                    <td>
-                    <button class="btn btn-primary edit-btn" type="button"  data-id="${newEmployee.id}">Edit</button>
-                    </td>
-                    <td>
-                    <button class="btn btn-danger del-btn" type="button" data-id="${newEmployee.id}">Delete</button>
-                    </td>
-                </tr>
-                `;
-                $("table tbody").append(row);
+            success: function () {
                 $("#employeeform")[0].reset();
+                loadEmployees();
             },
-            error: function (xhr, status, error) {
+            error: function (error) {
                 console.error("Error inserting employees:", error);
             }
         });
@@ -152,17 +140,12 @@ $(document).ready(function () {
                 salary: salary,
                 datehire: datehire
             },
-            success: function (response) {
-
-                // let row = $('#row-' + response.id);
-                // row.find('#employee_name').text(response.employee_name);
-                // row.find('#title').text(response.title);
-                // row.find('#salary').text(response.salary);
-                // row.find('#hire_date').text(response.hire_date);
+            success: function () {
 
                 bootbox.alert("Updated successfully!");
 
                 loadEmployees();
+
                 $('#editModal').modal('hide');
             },
             error: function (xhr) {
@@ -173,6 +156,19 @@ $(document).ready(function () {
 
     });
 
+   $("#search").keyup(function(){
+        let val=$("#search").val();
+        let tolowVal=val.toLowerCase();
+        
+        if(tolowVal === ""){
+            console.log("the data is empty");
+            renderEmployees(employeeData);
+            return;
+        }
+        let filteredArray=employeeData.filter(emp => emp.employee_name.toLowerCase().includes(tolowVal));
+           
+        renderEmployees(filteredArray);
+   });
 
 });
 
